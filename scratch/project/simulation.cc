@@ -5,12 +5,26 @@
 
 #include "ns3/flow-monitor-module.h"
 
-int main()
+int main(int argc, char *argv[])
 {
+    std::string standard = "ax";
+    uint32_t nUsers = 8;
+    std::string trafficType = "high";
+    uint32_t packetSize = 1500;
+    std::string runName = "ax_users8_high_pkt1500";
+
+    CommandLine cmd;
+    cmd.AddValue("standard", "ax or ac", standard);
+    cmd.AddValue("nUsers", "Number of users", nUsers);
+    cmd.AddValue("trafficType", "Traffic type", trafficType);
+    cmd.AddValue("packetSize", "Packet size in bytes", packetSize);
+    cmd.AddValue("runName", "Unique run name for file outputs", runName);
+    cmd.Parse(argc, argv);
+
+    bool useAx = (standard == "ax");
+
     LogComponentEnable("RrMultiUserScheduler", LOG_LEVEL_INFO);
     LogComponentEnable("HeFrameExchangeManager", LOG_LEVEL_INFO);
-    bool useAx = true;
-    uint32_t nUsers = 8;
 
     NodeContainer staNodes;
     NodeContainer apNode;
@@ -33,18 +47,19 @@ int main()
     }
 
     // generate traffic
-    TrafficGenerator::InstallTraffic(staNodes, apNode, "high");
+    TrafficGenerator::InstallTraffic(staNodes, apNode, trafficType, packetSize);
 
     // monitor traffic
     FlowMonitorHelper flowHelper;
     Ptr<FlowMonitor> monitor = flowHelper.InstallAll();
 
-    Metrics::LogThroughputOverTime(monitor);
+    Metrics::LogThroughputOverTime(monitor, runName);
 
-    Simulator::Stop(Seconds(20));
+    Simulator::Stop(Seconds(62));
     Simulator::Run();
 
-    Metrics::PrintResults(monitor, flowHelper);
+    Metrics::PrintResults(monitor, flowHelper, standard, nUsers, trafficType, packetSize);
 
     Simulator::Destroy();
+    return 0;
 }

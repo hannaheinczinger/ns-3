@@ -11,7 +11,7 @@ using namespace ns3;
 class TrafficGenerator
 {
 public:
-    static void InstallTraffic(NodeContainer staNodes, NodeContainer apNode, std::string trafficType);
+    static void InstallTraffic(NodeContainer staNodes, NodeContainer apNode, std::string trafficType, uint32_t packetSize);
 };
 
 #endif

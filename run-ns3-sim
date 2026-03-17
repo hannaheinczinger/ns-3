@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+
+mkdir -p results
+mkdir -p results/throughput_time
+mkdir -p plots
+
+rm -f results/summary.csv
+rm -f results/per_flow.csv
+rm -f results/throughput_time/*.csv
+
+echo "Running ns-3 simulations..."
+
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=8 --trafficType=high --packetSize=1500 --runName=ax_users8_high_pkt1500"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=8 --trafficType=high --packetSize=1500 --runName=ac_users8_high_pkt1500"
+
+echo "Generating plots..."
+# python3 plot_results.py
+
+echo "Done."

@@ -10,8 +10,8 @@ using namespace ns3;
 class Metrics
 {
 public:
-    static void PrintResults(Ptr<FlowMonitor> monitor, FlowMonitorHelper &helper);
-    static void LogThroughputOverTime(Ptr<FlowMonitor> monitor);
+    static void PrintResults(Ptr<FlowMonitor> monitor, FlowMonitorHelper &helper, const std::string &standard, uint32_t nUsers, const std::string &trafficType, uint32_t packetSize);
+    static void LogThroughputOverTime(Ptr<FlowMonitor> monitor, const std::string &runName);
 };
 
 #endif

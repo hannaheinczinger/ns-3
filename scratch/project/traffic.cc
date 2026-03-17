@@ -2,22 +2,19 @@
 
 void TrafficGenerator::InstallTraffic(NodeContainer staNodes,
                                        NodeContainer apNode,
-                                       std::string trafficType)
+                                       std::string trafficType,
+                                       uint32_t packetSize)
 {
     uint16_t port = 5000;
-
-    uint32_t packetSize;
     double dataRate;
 
     // TODO: extend traffic types for experiments
     if (trafficType == "low")
     {
-        packetSize = 160;
         dataRate = 64000;
     }
     else
     {
-        packetSize = 1500;
         dataRate = 50000000;
     }
 
@@ -35,7 +32,7 @@ void TrafficGenerator::InstallTraffic(NodeContainer staNodes,
         ApplicationContainer sinkApp = sinkHelper.Install(apNode.Get(0));
 
         sinkApp.Start(Seconds(0.0));
-        sinkApp.Stop(Seconds(20.0));
+        sinkApp.Stop(Seconds(62.0));
 
         UdpClientHelper client(apAddress, port);
         client.SetAttribute("MaxPackets", UintegerValue(0xFFFFFFFF));
@@ -44,7 +41,7 @@ void TrafficGenerator::InstallTraffic(NodeContainer staNodes,
 
         ApplicationContainer clientApp = client.Install(staNodes.Get(i));
         clientApp.Start(Seconds(2.0));
-        clientApp.Stop(Seconds(22.0));
+        clientApp.Stop(Seconds(62.0));
 
         port++;
     }
