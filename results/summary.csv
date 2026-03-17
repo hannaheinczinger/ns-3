@@ -1,0 +1,5 @@
+standard,nUsers,trafficType,packetSize,totalThroughputMbps,avgDelayMs,jainFairness,packetDropRate
+ax,8,high,1500,304.155,1559.14,0.997256,0.254667
+ac,8,high,1500,246.05,2037.41,0.998875,0.396533
+ax,1,high,160,58.7487,0.197473,1,2.176e-05
+ac,1,high,160,58.7489,0.187458,1,2.176e-05

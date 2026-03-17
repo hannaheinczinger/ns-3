@@ -14,6 +14,10 @@ echo "Running ns-3 simulations..."
 ./ns3 run "scratch/project/simulation --standard=ax --nUsers=8 --trafficType=high --packetSize=1500 --runName=ax_users8_high_pkt1500"
 ./ns3 run "scratch/project/simulation --standard=ac --nUsers=8 --trafficType=high --packetSize=1500 --runName=ac_users8_high_pkt1500"
 
+# Single user, many small packets test
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=1 --trafficType=high --packetSize=160 --runName=ax_users1_high_pkt160"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=1 --trafficType=high --packetSize=160 --runName=ac_users1_high_pkt160"
+
 echo "Generating plots..."
 # python3 plot_results.py
 
