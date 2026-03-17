@@ -39,6 +39,8 @@ int main()
     FlowMonitorHelper flowHelper;
     Ptr<FlowMonitor> monitor = flowHelper.InstallAll();
 
+    Metrics::LogThroughputOverTime(monitor);
+
     Simulator::Stop(Seconds(20));
     Simulator::Run();
 

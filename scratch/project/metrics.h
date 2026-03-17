@@ -11,6 +11,7 @@ class Metrics
 {
 public:
     static void PrintResults(Ptr<FlowMonitor> monitor, FlowMonitorHelper &helper);
+    static void LogThroughputOverTime(Ptr<FlowMonitor> monitor);
 };
 
 #endif
