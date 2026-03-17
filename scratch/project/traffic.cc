@@ -7,19 +7,24 @@ void TrafficGenerator::InstallTraffic(NodeContainer staNodes,
     uint16_t port = 5000;
 
     uint32_t packetSize;
-    std::string dataRate;
+    double dataRate;
 
     // TODO: extend traffic types for experiments
     if (trafficType == "low")
     {
         packetSize = 160;
-        dataRate = "64kbps";
+        dataRate = 64000;
     }
     else
     {
         packetSize = 1500;
-        dataRate = "10Mbps";
+        dataRate = 50000000;
     }
+
+    // AP IP address
+    Ipv4Address apAddress = apNode.Get(0)->GetObject<Ipv4>()->GetAddress(1, 0).GetLocal();
+    double intervalSeconds = (packetSize * 8.0) / dataRate;
+    Time interval = Seconds(intervalSeconds);
 
     for (uint32_t i = 0; i < staNodes.GetN(); i++)
     {
@@ -32,13 +37,14 @@ void TrafficGenerator::InstallTraffic(NodeContainer staNodes,
         sinkApp.Start(Seconds(0.0));
         sinkApp.Stop(Seconds(20.0));
 
-        OnOffHelper onoff("ns3::UdpSocketFactory", InetSocketAddress(apNode.Get(0)->GetObject<Ipv4>()->GetAddress(1,0).GetLocal(), port));
+        UdpClientHelper client(apAddress, port);
+        client.SetAttribute("MaxPackets", UintegerValue(0xFFFFFFFF));
+        client.SetAttribute("Interval", TimeValue(interval));
+        client.SetAttribute("PacketSize", UintegerValue(packetSize));
 
-        onoff.SetConstantRate(DataRate(dataRate), packetSize);
-
-        ApplicationContainer clientApp = onoff.Install(staNodes.Get(i));
-        clientApp.Start(Seconds(1.0 + i * 0.1));
-        clientApp.Stop(Seconds(20.0));
+        ApplicationContainer clientApp = client.Install(staNodes.Get(i));
+        clientApp.Start(Seconds(2.0));
+        clientApp.Stop(Seconds(22.0));
 
         port++;
     }

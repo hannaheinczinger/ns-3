@@ -7,8 +7,10 @@
 
 int main()
 {
+    LogComponentEnable("RrMultiUserScheduler", LOG_LEVEL_INFO);
+    LogComponentEnable("HeFrameExchangeManager", LOG_LEVEL_INFO);
     bool useAx = true;
-    uint32_t nUsers = 1;
+    uint32_t nUsers = 8;
 
     NodeContainer staNodes;
     NodeContainer apNode;
@@ -31,7 +33,7 @@ int main()
     }
 
     // generate traffic
-    TrafficGenerator::InstallTraffic(staNodes, apNode, "low");
+    TrafficGenerator::InstallTraffic(staNodes, apNode, "high");
 
     // monitor traffic
     FlowMonitorHelper flowHelper;
