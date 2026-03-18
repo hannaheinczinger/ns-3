@@ -1,7 +1,7 @@
-#include "wifi-ax-setup.h"
-#include "wifi-ac-setup.h"
+#include "wifi-setup.h"
 #include "traffic.h"
 #include "metrics.h"
+#include "movement.h"
 
 #include "ns3/flow-monitor-module.h"
 
@@ -12,8 +12,12 @@ int main(int argc, char *argv[])
     std::string trafficType = "high";
     uint32_t packetSize = 1500;
     std::string movementType = "Static10m";
-    std::string addPropagation = "false";
+    bool addPropagation = false;
     std::string runName = "ax_users8_high_pkt1500";
+    bool enableAmpdu = false;
+    bool enableAmsdu = false;
+    uint32_t ampduMpdus = 64;
+    uint32_t msduLength = 1500;
 
     CommandLine cmd;
     cmd.AddValue("standard", "ax or ac", standard);
@@ -23,9 +27,11 @@ int main(int argc, char *argv[])
     cmd.AddValue ("movementType", "Type of STA movement", movementType);
     cmd.AddValue("addPropagation", "Enable propagation", addPropagation);
     cmd.AddValue("runName", "Unique run name for file outputs", runName);
+    cmd.AddValue("enableAmpdu", "Enable A-MPDU aggregation", enableAmpdu);
+    cmd.AddValue("enableAmsdu", "Enable A-MSDU aggregation", enableAmsdu);
+    cmd.AddValue("ampduMpdus", "Target A-MPDU depth in MPDUs", ampduMpdus);
+    cmd.AddValue("msduLength", "MSDU payload length in bytes", msduLength);
     cmd.Parse(argc, argv);
-
-    bool useAx = (standard == "ax");
 
     LogComponentEnable("RrMultiUserScheduler", LOG_LEVEL_INFO);
     LogComponentEnable("HeFrameExchangeManager", LOG_LEVEL_INFO);
@@ -33,21 +39,34 @@ int main(int argc, char *argv[])
     NodeContainer staNodes;
     NodeContainer apNode;
 
-    if (useAx)
-    {
-        WifiAxSetup sim(nUsers);
-        sim.Setup(movementType, addPropagation);
+    
+    WifiSetup sim(nUsers,
+                  standard,
+                  enableAmpdu,
+                  enableAmsdu,
+                  ampduMpdus,
+                  msduLength,
+                  addPropagation);
+    sim.Setup();
 
-        staNodes = sim.GetStaNodes();
-        apNode = sim.GetApNode();
-    }
-    else
-    {
-        WifiAcSetup sim(nUsers);
-        sim.Setup(movementType, addPropagation);
+    staNodes = sim.GetStaNodes();
+    apNode = sim.GetApNode();
 
-        staNodes = sim.GetStaNodes();
-        apNode = sim.GetApNode();
+    
+    // Set movement of STA's
+    Movement moveManager;
+    MobilityHelper mobility = moveManager.InitMovement();
+    moveManager.SetAPToStaticMovement(mobility, apNode);
+    if(movementType == "Static1m") {
+        moveManager.SetToStaticMovement(mobility, staNodes, apNode.Get(0), 1, 1);
+    } else if(movementType == "Static10m") {
+        moveManager.SetToStaticMovement(mobility, staNodes, apNode.Get(0), 10, 10);        
+    } else if(movementType == "Static30m") {
+        moveManager.SetToStaticMovement(mobility, staNodes, apNode.Get(0), 30, 30);
+    } else if(movementType == "StaticRandom_1m-30m") {
+        moveManager.SetToStaticMovement(mobility, staNodes, apNode.Get(0), 1, 30);
+    } else {            //if(movementType == "Dynamic") {
+        moveManager.SetToRandomWalkMovement(mobility, staNodes);        
     }
 
     // generate traffic

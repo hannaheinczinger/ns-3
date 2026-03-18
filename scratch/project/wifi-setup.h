@@ -1,5 +1,5 @@
-#ifndef WIFI_AX_SETUP_H
-#define WIFI_AX_SETUP_H
+#ifndef WIFI_SETUP_H
+#define WIFI_SETUP_H
 
 #include "ns3/core-module.h"
 #include "ns3/network-module.h"
@@ -9,12 +9,18 @@
 
 using namespace ns3;
 
-class WifiAxSetup
+class WifiSetup
 {
 public:
-    WifiAxSetup(uint32_t nStations);
+    WifiSetup(uint32_t nStations,
+                const std::string& standard,
+                bool enableAmpdu,
+                bool enableAmsdu,
+                uint32_t ampduMpdus,
+                uint32_t msduLength, 
+                bool addPropagation);
 
-    void Setup(std::string movementType, std::string addPropagation);
+    void Setup();
 
     NodeContainer GetStaNodes();
     NodeContainer GetApNode();
@@ -24,6 +30,12 @@ public:
 
 private:
     uint32_t m_nStations;
+    std::string m_standard;
+    bool m_enableAmpdu;
+    bool m_enableAmsdu;
+    uint32_t m_ampduMpdus;
+    uint32_t m_msduLength;
+    bool m_addPropagation;
 
     NodeContainer staNodes;
     NodeContainer apNode;
