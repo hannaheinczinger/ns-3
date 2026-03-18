@@ -19,6 +19,6 @@ echo "Running ns-3 simulations..."
 ./ns3 run "scratch/project/simulation --standard=ac --nUsers=1 --trafficType=high --packetSize=160 --runName=ac_users1_high_pkt160"
 
 echo "Generating plots..."
-# python3 plot_results.py
+python3 plot.py
 
 echo "Done."
