@@ -12,21 +12,21 @@ rm -f results/throughput_time/*.csv
 echo "Running ns-3 simulations..."
 
 # High density environment 
-./ns3 run "scratch/project/simulation --standard=ax --nUsers=32 --movementType=moving --addPropagation=1 --runName=ax_high_density_environment_moving_from_AP"
-./ns3 run "scratch/project/simulation --standard=ac --nUsers=32 --movementType=moving --addPropagation=1 --runName=ac_high_density_environment_moving_from_AP"
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --trafficType=medium --movementType=moving --addPropagation=true --runName=ax_high_density_environment_moving_from_AP"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=16 --trafficType=medium --movementType=moving --addPropagation=true --runName=ac_high_density_environment_moving_from_AP"
 
 # SNR tests 
-./ns3 run "scratch/project/simulation --standard=ax --nUsers=32 --movementType=Static1m --addPropagation=1 --runName=ax_high_density_environment_1m_from_AP"
-./ns3 run "scratch/project/simulation --standard=ac --nUsers=32 --movementType=Static1m --addPropagation=1 --runName=ac_high_density_environment_1m_from_AP"
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --movementType=Static1m --addPropagation=true --runName=ax_high_density_environment_1m_from_AP"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=16 --movementType=Static1m --addPropagation=true --runName=ac_high_density_environment_1m_from_AP"
 
-./ns3 run "scratch/project/simulation --standard=ax --nUsers=32 --movementType=Static10m --addPropagation=1 --runName=ax_high_density_environment_10m_from_AP"
-./ns3 run "scratch/project/simulation --standard=ac --nUsers=32 --movementType=Static10m --addPropagation=1 --runName=ac_high_density_environment_10m_from_AP"
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --movementType=Static10m --addPropagation=true --runName=ax_high_density_environment_10m_from_AP"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=16 --movementType=Static10m --addPropagation=true --runName=ac_high_density_environment_10m_from_AP"
 
-./ns3 run "scratch/project/simulation --standard=ax --nUsers=32 --movementType=Static30m --addPropagation=1 --runName=ax_high_density_environment_30m_from_AP"
-./ns3 run "scratch/project/simulation --standard=ac --nUsers=32 --movementType=Static30m --addPropagation=1 --runName=ac_high_density_environment_30m_from_AP"
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --movementType=Static30m --addPropagation=true --runName=ax_high_density_environment_30m_from_AP"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=16 --movementType=Static30m --addPropagation=true --runName=ac_high_density_environment_30m_from_AP"
 
-./ns3 run "scratch/project/simulation --standard=ax --nUsers=32 --movementType=StaticRandom_1m-30m --addPropagation=1 --runName=ax_high_density_environment_1m-30m_from_AP"
-./ns3 run "scratch/project/simulation --standard=ac --nUsers=32 --movementType=StaticRandom_1m-30m --addPropagation=1 --runName=ac_high_density_environment_1m-30m_from_AP"
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --movementType=StaticRandom_1m-30m --addPropagation=true --runName=ax_high_density_environment_1m-30m_from_AP"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=16 --movementType=StaticRandom_1m-30m --addPropagation=true --runName=ac_high_density_environment_1m-30m_from_AP"
 
 # Single user, many small packets test
 ./ns3 run "scratch/project/simulation --standard=ax --nUsers=1 --packetSize=124 --runName=ax_users1_high_pkt160"

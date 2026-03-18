@@ -13,6 +13,10 @@ void TrafficGenerator::InstallTraffic(NodeContainer staNodes,
     {
         dataRate = 64000;
     }
+    else if(trafficType == "medium") 
+    {
+        dataRate = 5000000;
+    } 
     else
     {
         dataRate = 50000000;
