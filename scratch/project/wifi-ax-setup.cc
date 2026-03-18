@@ -1,11 +1,12 @@
 #include "wifi-ax-setup.h"
+#include "movement.h"
 
 WifiAxSetup::WifiAxSetup(uint32_t nStations)
 {
     m_nStations = nStations;
 }
 
-void WifiAxSetup::Setup()
+void WifiAxSetup::Setup(std::string movementType, std::string addPropagation)
 {
     // setup nodes, extendable to multi-clients
     staNodes.Create(m_nStations);
@@ -14,6 +15,10 @@ void WifiAxSetup::Setup()
     // setup the 802.11ax standard
     YansWifiChannelHelper channel = YansWifiChannelHelper::Default();
     YansWifiPhyHelper phy;
+    if(addPropagation == "true") {
+        channel.SetPropagationDelay("ns3::ConstantSpeedPropagationDelayModel");
+        channel.AddPropagationLoss("ns3::NakagamiPropagationLossModel");
+    }
     phy.SetChannel(channel.Create());
 
     WifiHelper wifi;
@@ -33,11 +38,21 @@ void WifiAxSetup::Setup()
 
     apDevice = wifi.Install(phy, mac, apNode);
 
-    // setup static postions of nodes
-    MobilityHelper mobility;
-    mobility.SetMobilityModel("ns3::ConstantPositionMobilityModel");
-    mobility.Install(staNodes);
-    mobility.Install(apNode);
+    // Set movement of STA's
+    Movement moveManager;
+    MobilityHelper mobility = moveManager.InitMovement();
+    moveManager.SetAPToStaticMovement(mobility, apNode);
+    if(movementType == "Static1m") {
+        moveManager.SetToStaticMovement(mobility, staNodes, apNode.Get(0), 1, 1);
+    } else if(movementType == "Static10m") {
+        moveManager.SetToStaticMovement(mobility, staNodes, apNode.Get(0), 10, 10);        
+    } else if(movementType == "Static30m") {
+        moveManager.SetToStaticMovement(mobility, staNodes, apNode.Get(0), 30, 30);
+    } else if(movementType == "StaticRandom_1m-30m") {
+        moveManager.SetToStaticMovement(mobility, staNodes, apNode.Get(0), 1, 30);
+    } else {            //if(movementType == "Dynamic") {
+        moveManager.SetToRandomWalkMovement(mobility, staNodes);        
+    }
 
     InternetStackHelper stack;
     stack.Install(staNodes);

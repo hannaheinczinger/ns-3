@@ -14,7 +14,7 @@ class WifiAcSetup
 public:
     WifiAcSetup(uint32_t nStations);
 
-    void Setup();
+    void Setup(std::string movementType, std::string addPropagation);
 
     NodeContainer GetStaNodes();
     NodeContainer GetApNode();

@@ -32,7 +32,7 @@ void TrafficGenerator::InstallTraffic(NodeContainer staNodes,
         ApplicationContainer sinkApp = sinkHelper.Install(apNode.Get(0));
 
         sinkApp.Start(Seconds(0.0));
-        sinkApp.Stop(Seconds(62.0));
+        sinkApp.Stop(Seconds(12.0));
 
         UdpClientHelper client(apAddress, port);
         client.SetAttribute("MaxPackets", UintegerValue(0xFFFFFFFF));
@@ -41,7 +41,7 @@ void TrafficGenerator::InstallTraffic(NodeContainer staNodes,
 
         ApplicationContainer clientApp = client.Install(staNodes.Get(i));
         clientApp.Start(Seconds(2.0));
-        clientApp.Stop(Seconds(62.0));
+        clientApp.Stop(Seconds(12.0));
 
         port++;
     }

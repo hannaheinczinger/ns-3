@@ -11,6 +11,8 @@ int main(int argc, char *argv[])
     uint32_t nUsers = 8;
     std::string trafficType = "high";
     uint32_t packetSize = 1500;
+    std::string movementType = "Static10m";
+    std::string addPropagation = "false";
     std::string runName = "ax_users8_high_pkt1500";
 
     CommandLine cmd;
@@ -18,6 +20,8 @@ int main(int argc, char *argv[])
     cmd.AddValue("nUsers", "Number of users", nUsers);
     cmd.AddValue("trafficType", "Traffic type", trafficType);
     cmd.AddValue("packetSize", "Packet size in bytes", packetSize);
+    cmd.AddValue ("movementType", "Type of STA movement", movementType);
+    cmd.AddValue("addPropagation", "Enable propagation", addPropagation);
     cmd.AddValue("runName", "Unique run name for file outputs", runName);
     cmd.Parse(argc, argv);
 
@@ -32,7 +36,7 @@ int main(int argc, char *argv[])
     if (useAx)
     {
         WifiAxSetup sim(nUsers);
-        sim.Setup();
+        sim.Setup(movementType, addPropagation);
 
         staNodes = sim.GetStaNodes();
         apNode = sim.GetApNode();
@@ -40,7 +44,7 @@ int main(int argc, char *argv[])
     else
     {
         WifiAcSetup sim(nUsers);
-        sim.Setup();
+        sim.Setup(movementType, addPropagation);
 
         staNodes = sim.GetStaNodes();
         apNode = sim.GetApNode();
@@ -55,7 +59,7 @@ int main(int argc, char *argv[])
 
     Metrics::LogThroughputOverTime(monitor, runName);
 
-    Simulator::Stop(Seconds(62));
+    Simulator::Stop(Seconds(12));
     Simulator::Run();
 
     Metrics::PrintResults(monitor, flowHelper, standard, nUsers, trafficType, packetSize);
