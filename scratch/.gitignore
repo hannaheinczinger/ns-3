@@ -4,5 +4,8 @@
 
 !nested-subdir/
 !subdir/
+!project/
+!project/*.cc
+!project/*.h
 !scratch-simulator.cc
 !CMakeLists.txt
