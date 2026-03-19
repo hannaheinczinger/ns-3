@@ -15,7 +15,7 @@ class Movement {
     void SetToRandomWalkMovement(MobilityHelper &moblilty, NodeContainer &nodes);
     void SetAPToStaticMovement(MobilityHelper &mobility, NodeContainer &ap);
     void SetToStaticMovement(MobilityHelper &mobility, NodeContainer &nodes, Ptr<Node> apNode, double min_distance, double max_distance);
-
+    void SetToStaticMovement4(MobilityHelper &mobility, NodeContainer &nodes, Ptr<Node> apNode);
 };
 
 #endif

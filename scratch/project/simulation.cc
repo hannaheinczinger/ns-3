@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
     } else if(movementType == "Static30m") {
         moveManager.SetToStaticMovement(mobility, staNodes, apNode.Get(0), 30, 30);
     } else if(movementType == "StaticRandom_1m-30m") {
-        moveManager.SetToStaticMovement(mobility, staNodes, apNode.Get(0), 1, 30);
+        moveManager.SetToStaticMovement4(mobility, staNodes, apNode.Get(0));
     } else {            //if(movementType == "Dynamic") {
         moveManager.SetToRandomWalkMovement(mobility, staNodes);        
     }

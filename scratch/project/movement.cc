@@ -77,3 +77,30 @@ void Movement::SetToStaticMovement(MobilityHelper &mobility, NodeContainer &node
         mob->SetPosition(Vector(x, y, apPos.z));
     }
 }
+
+void Movement::SetToStaticMovement4(MobilityHelper &mobility, NodeContainer &nodes, Ptr<Node> apNode) {
+    // Get AP position
+    Ptr<MobilityModel> apMobility = apNode->GetObject<MobilityModel>();
+    Vector apPos = apMobility->GetPosition();
+
+    mobility.SetMobilityModel("ns3::ConstantPositionMobilityModel");
+    mobility.Install(nodes);
+
+    double distances[4] = {1.0, 5.0, 15.0, 30.0};
+
+    // Place nodes at fixed distance (circle around AP)
+    for (uint32_t i = 0; i < nodes.GetN(); i++)
+    {   
+        double distance = distances[i];
+        
+        Ptr<Node> node = nodes.Get(i);
+        Ptr<MobilityModel> mob = node->GetObject<MobilityModel>();
+
+        double angle = 2 * M_PI * i / nodes.GetN();
+
+        double x = apPos.x + distance * std::cos(angle);
+        double y = apPos.y + distance * std::sin(angle);
+
+        mob->SetPosition(Vector(x, y, apPos.z));
+    }
+}
