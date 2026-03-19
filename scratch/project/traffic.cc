@@ -17,9 +17,13 @@ void TrafficGenerator::InstallTraffic(NodeContainer staNodes,
     {
         dataRate = 5000000;
     } 
-    else
+    else if(trafficType == "high")
     {
         dataRate = 50000000;
+    }
+    else 
+    {
+        dataRate = 500000000;
     }
 
     // AP IP address

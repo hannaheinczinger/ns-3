@@ -11,9 +11,31 @@ rm -f results/throughput_time/*.csv
 
 echo "Running ns-3 simulations..."
 
-# High density environment 
-./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --trafficType=medium --movementType=moving --addPropagation=1 --runName=ax_high_density_environment_moving_from_AP"
-./ns3 run "scratch/project/simulation --standard=ac --nUsers=16 --trafficType=medium --movementType=moving --addPropagation=1 --runName=ac_high_density_environment_moving_from_AP"
+# Changing number of clients
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=1 --runName=ax_user1"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=1 --runName=ac_user1"
+
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=2 --runName=ax_user2"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=2 --runName=ac_user2"
+
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=4 --runName=ax_user4"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=4 --runName=ac_user4"
+
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=8 --runName=ax_user8"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=8 --runName=ac_user8"
+
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --runName=ax_user16"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=16 --runName=ac_user16"
+
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=32 --runName=ax_user32"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=32 --runName=ac_user32"
+
+# Single user, many small packets test
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=4 --packetSize=128 --runName=ax_pkt128"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=4 --packetSize=128 --runName=ac_pkt128"
+
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=4 --packetSize=1500 --runName=ax_pkt1500"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=4 --packetSize=1500 --runName=ac_pkt1500"
 
 # SNR tests 
 ./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --movementType=Static1m --addPropagation=1 --runName=ax_high_density_environment_1m_from_AP"
@@ -28,24 +50,27 @@ echo "Running ns-3 simulations..."
 ./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --movementType=StaticRandom_1m-30m --addPropagation=1 --runName=ax_high_density_environment_1m-30m_from_AP"
 ./ns3 run "scratch/project/simulation --standard=ac --nUsers=16 --movementType=StaticRandom_1m-30m --addPropagation=1 --runName=ac_high_density_environment_1m-30m_from_AP"
 
-# Single user, many small packets test
-./ns3 run "scratch/project/simulation --standard=ax --nUsers=1 --packetSize=124 --runName=ax_users1_high_pkt160"
-./ns3 run "scratch/project/simulation --standard=ac --nUsers=1 --packetSize=124 --runName=ac_users1_high_pkt160"
+# High density environment 
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --trafficType=medium --movementType=moving --addPropagation=1 --runName=ax_dynamic"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=16 --trafficType=medium --movementType=moving --addPropagation=1 --runName=ac_dynamic"
+
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --trafficType=medium --movementType=Static10m --addPropagation=1 --runName=ax_static"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=16 --trafficType=medium --movementType=Static10m --addPropagation=1 --runName=ac_static"
 
 # Single user, aggregation tests 
 
 # msdu = 7935 bytes
-./ns3 run "scratch/project/simulation --standard=ax --nUsers=1 --packetSize=1500 --msduLength=7935 --enableAmpdu=1 --enableAmsdu=1 --ampduMpdus=64000 --runName=ax_su_ampdu64_msdu64"
-./ns3 run "scratch/project/simulation --standard=ax --nUsers=1 --packetSize=1500 --msduLength=7935 --enableAmpdu=1 --enableAmsdu=1 --ampduMpdus=256000 --runName=ax_su_ampdu256_msdu64"
-./ns3 run "scratch/project/simulation --standard=ac --nUsers=1 --packetSize=1500 --msduLength=7935 --enableAmpdu=1 --enableAmsdu=1 --ampduMpdus=64000 --runName=ac_su_ampdu64_msdu64"
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=1 --trafficType=extra --packetSize=1500 --msduLength=7935 --enableAmpdu=1 --enableAmsdu=1 --ampduMpdus=64000 --runName=ax_ampdu64_msdu"
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=1 --trafficType=extra --packetSize=1500 --msduLength=7935 --enableAmpdu=1 --enableAmsdu=1 --ampduMpdus=256000 --runName=ax_ampdu256_msdu"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=1 --trafficType=extra --packetSize=1500 --msduLength=7935 --enableAmpdu=1 --enableAmsdu=1 --ampduMpdus=64000 --runName=ac_ampdu64_msdu"
 
 # msdu = 11398 bytes
-./ns3 run "scratch/project/simulation --standard=ax --nUsers=1 --packetSize=1500 --msduLength=11398 --enableAmpdu=1 --enableAmsdu=1 --ampduMpdus=64000 --runName=ax_su_ampdu64_msdu512"
-./ns3 run "scratch/project/simulation --standard=ax --nUsers=1 --packetSize=1500 --msduLength=11398 --enableAmpdu=1 --enableAmsdu=1 --ampduMpdus=256000 --runName=ax_su_ampdu256_msdu512"
-./ns3 run "scratch/project/simulation --standard=ac --nUsers=1 --packetSize=1500 --msduLength=11398 --enableAmpdu=1 --enableAmsdu=1 --ampduMpdus=64000 --runName=ac_su_ampdu64_msdu512"
+# ./ns3 run "scratch/project/simulation --standard=ax --nUsers=1 --trafficType=extra --packetSize=1500 --msduLength=11398 --enableAmpdu=1 --enableAmsdu=1 --ampduMpdus=64000 --runName=ax_ampdu64_msdu512"
+# ./ns3 run "scratch/project/simulation --standard=ax --nUsers=1 --trafficType=extra --packetSize=1500 --msduLength=11398 --enableAmpdu=1 --enableAmsdu=1 --ampduMpdus=256000 --runName=ax_ampdu256_msdu512"
+# ./ns3 run "scratch/project/simulation --standard=ac --nUsers=1 --trafficType=extra --packetSize=1500 --msduLength=11398 --enableAmpdu=1 --enableAmsdu=1 --ampduMpdus=64000 --runName=ac_ampdu64_msdu512"
 
 
 echo "Generating plots..."
-python3 plot.py
+# python3 plot.py
 
 echo "Done."
