@@ -91,7 +91,7 @@ void Movement::SetToStaticMovement4(MobilityHelper &mobility, NodeContainer &nod
     // Place nodes at fixed distance (circle around AP)
     for (uint32_t i = 0; i < nodes.GetN(); i++)
     {   
-        double distance = distances[i];
+        double distance = distances[i % 4];
         
         Ptr<Node> node = nodes.Get(i);
         Ptr<MobilityModel> mob = node->GetObject<MobilityModel>();

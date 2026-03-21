@@ -168,5 +168,5 @@ void Metrics::LogThroughputOverTime(Ptr<FlowMonitor> monitor, const std::string 
 
     timeFile << now << "," << totalThroughput << "\n";
 
-    Simulator::Schedule(Seconds(0.5), &Metrics::LogThroughputOverTime, monitor, runName);
+    Simulator::Schedule(Seconds(0.1), &Metrics::LogThroughputOverTime, monitor, runName);
 }

@@ -30,12 +30,18 @@ echo "Running ns-3 simulations..."
 ./ns3 run "scratch/project/simulation --standard=ax --nUsers=32 --runName=ax_user32"
 ./ns3 run "scratch/project/simulation --standard=ac --nUsers=32 --runName=ac_user32"
 
-# Single user, many small packets test
-./ns3 run "scratch/project/simulation --standard=ax --nUsers=4 --packetSize=128 --runName=ax_pkt128"
-./ns3 run "scratch/project/simulation --standard=ac --nUsers=4 --packetSize=128 --runName=ac_pkt128"
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=64 --runName=ax_user64"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=64 --runName=ac_user64"
 
-./ns3 run "scratch/project/simulation --standard=ax --nUsers=4 --packetSize=1500 --runName=ax_pkt1500"
-./ns3 run "scratch/project/simulation --standard=ac --nUsers=4 --packetSize=1500 --runName=ac_pkt1500"
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=128 --runName=ax_user128"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=128 --runName=ac_user128"
+
+# Single user, many small packets test
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --packetSize=128 --runName=ax_pkt128"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=16 --packetSize=128 --runName=ac_pkt128"
+
+./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --packetSize=1500 --runName=ax_pkt1500"
+./ns3 run "scratch/project/simulation --standard=ac --nUsers=16 --packetSize=1500 --runName=ac_pkt1500"
 
 # SNR tests 
 ./ns3 run "scratch/project/simulation --standard=ax --nUsers=16 --movementType=Static1m --addPropagation=1 --runName=ax_high_density_environment_1m_from_AP"
